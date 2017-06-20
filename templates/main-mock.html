@@ -1,0 +1,188 @@
+{% extends "navbar.html" %}
+{% block title %}BOSS Dashboard Home{% endblock %}
+
+{% block js_scripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    function drawChart(){
+        var netdata = 'http://10.101.10.130/api/status'
+    }
+    </script>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>System Summary</h2>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>Network Traffic</h3>
+                <div id="network" style="width: 100%; height: 300px;"></div>
+            </div>
+            <div class="col-lg-6">
+                <h3>Storage Use</h3>
+                <div id="store_used" style="width: 100%; height: 300px;"></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Temperatures</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {% for temp in hwTemp %}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            {{ temp[0] }}
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="progress">
+                                <div class="progress-bar {% if temp[1] > 75 %} progress-bar-danger
+                                                     {% elif temp[1] > 60 %} progress-bar-warning
+                                                     {% else %} progress-bar-info{% endif %}"
+                                     style="width:{{ (temp[1]/85)*100 }}%"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            {{ temp[1] }}°c
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6">
+                {% for drive in driveTemp %}
+                    <div class="row">
+                        <div class="col-lg-3">
+                            {{ drive[0] }}
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="progress">
+                                <div class="progress-bar {% if drive[1] > 75 %} progress-bar-danger
+                                                     {% elif drive[1] > 60 %} progress-bar-warning
+                                                     {% else %} progress-bar-info{% endif %}"
+                                     style="width:{{ (drive[1]/85)*100 }}%"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 text-right">
+                            {{ drive[1] }}°c
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Alerts</h3>
+                <div id="calendar_basic" style="width: 1000px; height: 350px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 15%">Date</th>
+                        <th style="width: 15%">Time</th>
+                        <th style="width: 70%">Alert Message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>10/04/2013</td>
+                        <td>15:40:37</td>
+                        <td>SMART Drive Warning - E01 D03</td>
+                    </tr>
+                    <tr>
+                        <td>10/05/2013</td>
+                        <td>15:40:37</td>
+                        <td>SMART Drive Warning - E01 D03</td>
+                    </tr>
+                    <tr>
+                        <td>10/05/2013</td>
+                        <td>15:40:37</td>
+                        <td>Unable to connect to network resource at 10.101.10.130:8000</td>
+                    </tr>
+                    <tr>
+                        <td>10/13/2013</td>
+                        <td>15:40:37</td>
+                        <td>SMART Drive Warning - E01 D03</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-lg-offset-5 text-center">
+                <button class="btn btn-default btn-sm">more...</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Drive Status</h3>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 15%">Enclosure</th>
+                        <th style="width: 15%">Drive Number</th>
+                        <th style="width: 30%">Pool</th>
+                        <th style="width: 40%">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Storage</td>
+                        <td>Healthy</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>Storage</td>
+                        <td>Healthy</td>
+                    </tr>
+                    <tr class="warning">
+                        <td>1</td>
+                        <td>3</td>
+                        <td>Storage</td>
+                        <td>Warning - SMART Error</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>4</td>
+                        <td>Storage</td>
+                        <td>Healthy</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>5</td>
+                        <td>Storage</td>
+                        <td>Healthy</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>Imaging</td>
+                        <td>Healthy</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>Imaging</td>
+                        <td>Healthy</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

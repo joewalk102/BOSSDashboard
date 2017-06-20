@@ -1,0 +1,52 @@
+{% extends "navbar.html" %}
+{% block title %}BOSS Dashboard Home{% endblock %}
+
+{% block js_scripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    function drawChart(){
+        var netdata = 'http://10.101.10.130/api/status'
+    }
+    </script>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>System Summary</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-3" style="height: 20px">
+                        CPU Utilization
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="progress" style="height: 20px">
+                            <div class="progress-bar progress-bar-info" style="width: {{ system["cpu"] }}%"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 text-right" style="height: 20px">
+                        {{ system["cpu"] }}%
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        RAM Utilization
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="progress" style="height: 20px">
+                            <div class="progress-bar progress-bar-info" style="width: {{ system["ram"]["data"][2] }}%"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 text-right">
+                        {{ system["ram"]["data"][2] }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

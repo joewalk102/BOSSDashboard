@@ -1,0 +1,142 @@
+{% extends "navbar.html" %}
+{% block title %}BOSS Dashboard Home{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>API Help</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Status</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>Overall</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th style="width: 20%">
+                            Path
+                        </th>
+                        <th style="width: 20%">
+                            Name
+                        </th>
+                        <th style="width: 30%">
+                            Information
+                        </th>
+                        <th>
+                            Example
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            /api/status
+                        </td>
+                        <td>
+                            Overall Status
+                        </td>
+                        <td>
+                            Returns all information about the system
+                        </td>
+                        <td>
+                            <iframe src="/api/status" frameborder="0" style="background-color: #777777; width: 100%"></iframe>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>CPU Information</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered" style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <td style="width: 20%">
+                            /api/status/cpu_stat
+                        </td>
+                        <td style="width: 20%">
+                            CPU Status
+                        </td>
+                        <td style="width: 30%">
+                            Returns the following data points:
+                            <ul>
+                                <li>CTX Switches</li>
+                                <li>Interrupts</li>
+                                <li>Soft Interrupts</li>
+                                <li>Sys Calls</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <iframe src="/api/status/cpu_stat" frameborder="0" style="background-color: #777777; width: 100%"></iframe>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            /api/status/cpu_percent
+                        </td>
+                        <td>
+                            CPU Percent
+                        </td>
+                        <td>
+                            Returns CPU Utilization, broken out by core (in percent)
+                        </td>
+                        <td>
+                            <iframe src="/api/status/cpu_percent" frameborder="0" style="background-color: #777777; width: 100%"></iframe>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            /api/status/cpu_time_percent
+                        </td>
+                        <td>
+                            Detailed CPU Percent
+                        </td>
+                        <td>
+                            Displays the following data points for each core:
+                            <ul>
+                                <li>User</li>
+                                <li>System</li>
+                                <li>Idle</li>
+                                <li>Nice</li>
+                                <li>IRQ</li>
+                            </ul>
+                            Additional data points may be present on Linux systems
+                        </td>
+                        <td>
+                            <iframe src="/api/status/cpu_time_percent" frameborder="0" style="background-color: #777777; width: 100%"></iframe>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            /api/status/
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,291 @@
+{% extends "navbar.html" %}
+{% block title %}BOSS Health{% endblock %}
+
+{% block js_scripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        setInterval(function drawChart(){
+        var netdata = 'http://10.101.10.130/api/status/cpu_percent';
+            document.getElementById("cpu-util-0").setAttribute("style", netdata["data"][0]);
+{#            document.getElementById("cpu-util-1");#}
+{#            document.getElementById("cpu-util-2");#}
+{#            document.getElementById("cpu-util-3");#}
+        }, 1000);
+    </script>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <hr>
+                <h2>CPU</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12"><h3>CPU Time</h3></div>
+                </div>
+                {% for i in range(0, cpu["timepercent"]["data"]|length) %}
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-xs-12">
+                            {{ cpu["timepercent"]["labels"][i] }}
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-xs-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info"
+                                     style="width: {{ cpu["timepercent"]["data"][i] }}%" id="timepercent{{ i }}"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>CPU Status</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for i in range(0, cpu["status"]["data"]|length) %}
+                        <div class="col-lg-6 col-xs-6">
+                            {{ cpu["status"]["labels"][i] }}
+                        </div>
+                        <div class="col-lg-6 col-xs-6">
+                            {{ cpu["status"]["data"][i] }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3>CPU Load</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for i in range(0, cpu["utilization"]["data"]|length) %}
+                        <div class="col-lg-3 col-md-4 col-xs-12">
+                            Core {{ i }}
+                        </div>
+                        <div class="col-lg-9 col-md-8 col-xs-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info"
+                                     style="width: {{ cpu["utilization"]["data"][i] }}%"
+                                     id="cpu-util-{{ i }}">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <hr>
+                <h2>RAM</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12"><h3>Virtual Memory</h3></div>
+                </div>
+                {% for i in range(0, 2) %}
+                    <div class="row">
+                        <div class="col-lg-3" style="height: 25px">
+                            {{ ram["virtual"]["labels"][i] }}
+                        </div>
+                        <div class="col-lg-9 text-right" style="height: 25px">
+                            {{ ram["virtual"]["pp-data"][i] }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <br>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div>{{ ram["virtual"]["data"][2] }}%</div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="progress">
+                            <div class="progress-bar {% if ram["virtual"]["data"][2] > 85 %} progress-bar-danger
+                                                     {% elif ram["virtual"]["data"][2] > 70 %} progress-bar-warning
+                                                     {% else %} progress-bar-info {% endif %}"
+                                 style="width: {{ ram["virtual"]["data"][2] }}%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% for i in range(3, ram["virtual"]["data"]|length) %}
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-lg-6" style="height: 25px">
+                            {{ ram["virtual"]["labels"][i] }}
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-lg-6 text-right" style="height: 25px">
+                            {{ ram["virtual"]["pp-data"][i] }}
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-lg-12" style="height: 25px">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info"
+                                     style="width: {{ (ram["virtual"]["data"][i] / ram["virtual"]["data"][0])*100 }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6">
+                <h3>Swap Memory</h3>
+                {% for i in range(0, 3) %}
+                    <div class="row">
+                        <div class="col-lg-4">
+                            {{ ram["swap"]["labels"][i] }}
+                        </div>
+                        <div class="col-lg-8 text-right">
+                            {{ ram["swap"]["data"][i] }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <hr>
+                <h2>Network</h2>
+                <hr>
+            </div>
+        </div>
+        {% for key in net["io"]["data"] %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3>Interface: {{ key }}</h3>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        {% if net["stat"]["data"][key][0] %}
+                        <br>
+                        <div class="btn btn-success btn-sm">
+                            Up
+                        </div>
+                        {% else %}
+                        <br>
+                        <div class="btn btn-danger disabled btn-sm">
+                            Down
+                        </div>
+                {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        {% for i in range(0, net["addr"]["data"][key]|length) %}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    {% if net["addr"]["data"][key][i][0] == 2 %}
+                                        <h4>IPv4</h4>
+                                    {% elif net["addr"]["data"][key][i][0] == 10 %}
+                                        <h4>IPv6</h4>
+                                    {% elif net["addr"]["data"][key][i][0] == 17 %}
+                                        <h4>MAC</h4>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% for j in range(1, net["addr"]["data"][key][i]|length) %}
+                            {% if net["addr"]["data"][key][i][j] %}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ net["addr"]["labels"][j] }}
+                                </div>
+                                <div class="col-lg-6">
+                                    {{ net["addr"]["data"][key][i][j] }}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-6">
+                        <br>
+                        {% for i in range(0, net["stat"]["data"][key]|length) %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{ net["stat"]["labels"][i] }}
+                            </div>
+                            <div class="col-lg-6">
+                                {{ net["stat"]["data"][key][i] }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <hr>
+                <h2>Storage</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% for device in storage["usage"]["data"] %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>Mount Point: {{ device[4] }}</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="progress">
+                                <div class="progress-bar {% if device[3] > 85 %} progress-bar-danger
+                                                         {% elif device[3] > 70 %} progress-bar-warning
+                                                         {% else %} progress-bar-info {% endif %}"
+                                     style="width: {{ device[3] }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {% for i in range(0, 3)|reverse %}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{ storage["usage"]["labels"][i] }}
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    {{ device[i] }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    FS Type
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    {{ device[5] }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <br><br><br><br><br>
+
+    </div>
+{% endblock %}

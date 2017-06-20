@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head %}
+    <title>{% block title %}{% endblock %} - Project BOH_HA</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    {% block js_scripts %}
+    {% endblock %}
+</head>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">BOSS Dashboard</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li{% if page=='home' %} class="active" {% endif %}><a href="/">Summary</a></li>
+                <li{% if page=='health' %} class="active" {% endif %}><a href="/health">Health</a></li>
+                <li{% if page=='storage' %} class="active" {% endif %}><a href="/storage">Storage</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+        <div class="boss-style-navbar"></div>
+    </div><!-- /.container-fluid -->
+</nav>
+<body style="padding-top: 80px">
+{% block body %}{% endblock %}
+</body>
+</html>
